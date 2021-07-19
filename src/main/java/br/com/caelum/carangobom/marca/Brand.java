@@ -9,26 +9,26 @@ import javax.validation.constraints.Size;
 import static javax.persistence.GenerationType.IDENTITY;
 
 @Entity
-public class Marca {
+public class Brand {
 
     @Id @GeneratedValue(strategy = IDENTITY)
     private Long id;
 
     @NotBlank
-    @Size(min = 2, message = "Deve ter {min} ou mais caracteres.")
-    private String nome;
+    @Size(min = 2, message = "Must have {min} or more characters.")
+    private String name;
 
-    public Marca() {
-
+    public Brand() {
+        // Required by @Entity.
     }
 
-    public Marca(String nome) {
-        this(null, nome);
+    public Brand(String name) {
+        this(null, name);
     }
 
-    public Marca(Long id, String nome) {
+    public Brand(Long id, String name) {
         this.id = id;
-        this.nome = nome;
+        this.name = name;
     }
 
     public Long getId() {
@@ -39,11 +39,11 @@ public class Marca {
         this.id = id;
     }
 
-    public String getNome() {
-        return nome;
+    public String getName() {
+        return name;
     }
 
-    public void setNome(String nome) {
-        this.nome = nome;
+    public void setName(String name) {
+        this.name = name;
     }
 }
