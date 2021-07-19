@@ -1,7 +1,7 @@
-package br.com.caelum.carangobom.marca;
+package br.com.caelum.carangobom.brand;
 
-import br.com.caelum.carangobom.validacao.FieldErrorDTO;
-import br.com.caelum.carangobom.validacao.FieldErrorsDTO;
+import br.com.caelum.carangobom.validation.FieldErrorDTO;
+import br.com.caelum.carangobom.validation.FieldErrorsDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
