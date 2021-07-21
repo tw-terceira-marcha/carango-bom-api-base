@@ -40,7 +40,7 @@ class BrandControllerTest {
             new Brand(3L, "Fiat")
         );
 
-        when(brandRepository.findAllByOrderByNome())
+        when(brandRepository.findAllByOrderByName())
             .thenReturn(brands);
 
         List<Brand> response = brandController.list();

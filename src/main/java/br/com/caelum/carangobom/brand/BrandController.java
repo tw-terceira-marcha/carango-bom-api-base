@@ -30,7 +30,7 @@ public class BrandController {
     @GetMapping("/brands")
     @Transactional
     public List<Brand> list() {
-        return mr.findAllByOrderByNome();
+        return mr.findAllByOrderByName();
     }
 
     @GetMapping("/brands/{id}")
