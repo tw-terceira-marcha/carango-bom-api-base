@@ -1,4 +1,4 @@
-package br.com.caelum.carangobom.authentication;
+package br.com.caelum.carangobom.controllers;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -9,8 +9,12 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+
+import br.com.caelum.carangobom.controllers.data.AuthenticationForm;
+import br.com.caelum.carangobom.controllers.data.TokenDTO;
+import br.com.caelum.carangobom.service.TokenService;
+
 import org.springframework.security.authentication.TestingAuthenticationToken;
-import br.com.caelum.carangobom.user.User;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
@@ -33,27 +37,25 @@ class AuthenticationControllerTest {
 
     @Test
     void authenticationSucess() {
-        User user = new User("Luiz", "luiz@felipe.com", "123456");
-        AuthenticationForm form = new AuthenticationForm(user.getEmail(), user.getPassword());
+        AuthenticationForm form = new AuthenticationForm("Luiz", "123456");
         UsernamePasswordAuthenticationToken credentials = new UsernamePasswordAuthenticationToken(form.getEmail(),
                 form.getPassword());
-        Authentication authentication = new TestingAuthenticationToken(user.getEmail(), user.getPassword());
+        Authentication authentication = new TestingAuthenticationToken(form.getEmail(), form.getPassword());
         when(authManager.authenticate(any())).then(args -> {
             assertEquals(credentials, args.getArguments()[0]);
             return authentication;
         });
 
-        ResponseEntity<TokenDto> response = authenticationController.authenticate(form);
+        ResponseEntity<TokenDTO> response = authenticationController.authenticate(form);
         assertEquals(HttpStatus.OK, response.getStatusCode());
     }
 
     @Test
     void authenticationFailure() {
-        User user = new User("Luiz", "luiz@felipe.com", "123456");
-        AuthenticationForm form = new AuthenticationForm(user.getEmail(), user.getPassword());
+        AuthenticationForm form = new AuthenticationForm("Luiz", "123456");
         when(authManager.authenticate(any())).thenThrow(new BadCredentialsException("Authentication Failed"));
 
-        ResponseEntity<TokenDto> response = authenticationController.authenticate(form);
+        ResponseEntity<TokenDTO> response = authenticationController.authenticate(form);
         assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
     }
 }

@@ -1,4 +1,4 @@
-package br.com.caelum.carangobom.authentication;
+package br.com.caelum.carangobom.service;
 
 import java.util.Date;
 

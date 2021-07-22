@@ -1,4 +1,4 @@
-package br.com.caelum.carangobom.config.security;
+package br.com.caelum.carangobom.config.service;
 
 import java.util.Optional;
 
@@ -8,8 +8,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import br.com.caelum.carangobom.user.User;
-import br.com.caelum.carangobom.user.UserRepository;
+import br.com.caelum.carangobom.models.User;
+import br.com.caelum.carangobom.repository.UserRepository;
 
 @Service
 public class AuthenticationService implements UserDetailsService {

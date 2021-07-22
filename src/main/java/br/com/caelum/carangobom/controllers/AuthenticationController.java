@@ -1,10 +1,15 @@
-package br.com.caelum.carangobom.authentication;
+package br.com.caelum.carangobom.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.web.bind.annotation.*;
+
+import br.com.caelum.carangobom.controllers.data.AuthenticationForm;
+import br.com.caelum.carangobom.controllers.data.TokenDTO;
+import br.com.caelum.carangobom.service.TokenService;
+
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import javax.validation.Valid;
@@ -23,13 +28,13 @@ public class AuthenticationController {
     }
 
     @PostMapping("/auth")
-    public ResponseEntity<TokenDto> authenticate(@Valid @RequestBody AuthenticationForm form) {
+    public ResponseEntity<TokenDTO> authenticate(@Valid @RequestBody AuthenticationForm form) {
         UsernamePasswordAuthenticationToken credentials = new UsernamePasswordAuthenticationToken(form.getEmail(),
                 form.getPassword());
         try {
             Authentication authentication = authManager.authenticate(credentials);
             String token = tokenService.generateToken(authentication);
-            return ResponseEntity.ok(new TokenDto(token));
+            return ResponseEntity.ok(new TokenDTO(token));
         } catch (AuthenticationException e) {
             return ResponseEntity.badRequest().build();
         }

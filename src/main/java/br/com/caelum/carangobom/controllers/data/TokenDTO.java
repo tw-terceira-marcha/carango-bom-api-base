@@ -1,12 +1,12 @@
-package br.com.caelum.carangobom.authentication;
+package br.com.caelum.carangobom.controllers.data;
 
-public class TokenDto {
+public class TokenDTO {
 
     private String token;
 
     private String type;
 
-    public TokenDto(String token) {
+    public TokenDTO(String token) {
         this.token = token;
         this.type = "Bearer";
     }

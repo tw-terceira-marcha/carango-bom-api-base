@@ -1,4 +1,4 @@
-package br.com.caelum.carangobom.authentication;
+package br.com.caelum.carangobom.controllers.data;
 
 public class AuthenticationForm {
 

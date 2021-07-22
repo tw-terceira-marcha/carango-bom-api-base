@@ -1,4 +1,4 @@
-package br.com.caelum.carangobom.brand;
+package br.com.caelum.carangobom.controllers;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -6,6 +6,9 @@ import org.mockito.Mock;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.util.UriComponentsBuilder;
+
+import br.com.caelum.carangobom.models.Brand;
+import br.com.caelum.carangobom.repository.BrandRepository;
 
 import java.util.List;
 import java.util.Optional;
