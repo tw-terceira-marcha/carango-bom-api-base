@@ -27,6 +27,10 @@ public class User implements UserDetails {
     @ManyToOne
     private Role role;
 
+    public User() {
+        // Required by @Entity.
+    }
+
     public User(String name, String email, String password) {
         this.name = name;
         this.email = email;
