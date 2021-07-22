@@ -1,4 +1,4 @@
-package br.com.caelum.carangobom.config.service;
+package br.com.caelum.carangobom.service;
 
 import java.util.Optional;
 
