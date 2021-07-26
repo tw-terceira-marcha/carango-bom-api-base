@@ -10,7 +10,9 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import br.com.caelum.carangobom.filters.TokenAuthenticationFilter;
 import br.com.caelum.carangobom.service.AuthenticationService;
 
 import org.springframework.context.annotation.Bean;
@@ -22,6 +24,9 @@ public class Config extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private AuthenticationService authenticationService;
+
+    @Autowired
+    private TokenAuthenticationFilter tokenAuthenticationFilter;
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -35,11 +40,11 @@ public class Config extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.GET, "/vehicles").permitAll()
                 .antMatchers(HttpMethod.GET, "/vehicles/*").permitAll()
                 .antMatchers(HttpMethod.POST, "/auth").permitAll()
-                .anyRequest()
-                .authenticated()
+                .anyRequest().authenticated()
                 .and().csrf().disable()
                 .sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and().addFilterBefore(tokenAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
     }
 
     @Override
