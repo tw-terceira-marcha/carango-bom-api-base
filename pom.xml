@@ -20,6 +20,13 @@
 		<sonar.projectKey>tw-terceira-marcha_carango-bom-api-base</sonar.projectKey>
 		<sonar.organization>tw-terceira-marcha</sonar.organization>
 		<sonar.host.url>https://sonarcloud.io</sonar.host.url>
+		<sonar.exclusions>
+			br/com/caelum/carangobom/controllers/data/*,
+			br/com/caelum/carangobom/models/*,
+			br/com/caelum/carangobom/filters/*,
+			br/com/caelum/carangobom/repository/*,
+			br/com/caelum/carangobom/config/**
+		</sonar.exclusions>
 	</properties>
 
 	<dependencies>
