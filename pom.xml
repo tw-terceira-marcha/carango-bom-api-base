@@ -117,7 +117,6 @@
 						<exclude>br/com/caelum/carangobom/filters/*</exclude>
 						<exclude>br/com/caelum/carangobom/repository/*</exclude>
 						<exclude>br/com/caelum/carangobom/config/**</exclude>
-						<exclude>br/com/caelum/carangobom/*</exclude>
 					</excludes>
 				</configuration>
 				<executions>
