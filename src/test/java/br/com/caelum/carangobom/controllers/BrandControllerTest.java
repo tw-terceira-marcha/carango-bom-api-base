@@ -10,6 +10,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 import br.com.caelum.carangobom.models.Brand;
 import br.com.caelum.carangobom.repository.BrandRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -37,11 +38,11 @@ class BrandControllerTest {
 
     @Test
     void getBrands() {
-        List<Brand> brands = List.of(
-            new Brand(1L, "Audi"),
-            new Brand(2L, "BMW"),
-            new Brand(3L, "Fiat")
-        );
+        List<Brand> brands = new ArrayList<Brand>() {{
+            add(new Brand(1L, "Audi"));
+            add(new Brand(2L, "BMW"));
+            add(new Brand(3L, "Fiat"));
+        }};
 
         when(brandRepository.findAllByOrderByName())
             .thenReturn(brands);

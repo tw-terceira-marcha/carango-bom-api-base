@@ -15,7 +15,7 @@
 	<description>API do produto de gerenciamento de concessionárias Carango Bom</description>
 
 	<properties>
-		<java.version>11</java.version>
+		<java.version>8</java.version>
 		<surefire.skip>false</surefire.skip>
 		<sonar.projectKey>tw-terceira-marcha_carango-bom-api-base</sonar.projectKey>
 		<sonar.organization>tw-terceira-marcha</sonar.organization>
