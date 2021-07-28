@@ -1,8 +1,9 @@
-package br.com.caelum.carangobom.service.token;
+package br.com.caelum.carangobom.service.impl.token;
 
+import br.com.caelum.carangobom.service.interfaces.token.ITokenClaims;
 import io.jsonwebtoken.Claims;
 
-public class TokenClaims {
+public class TokenClaims implements ITokenClaims {
 
     private Claims claims;
 
@@ -10,6 +11,7 @@ public class TokenClaims {
         this.claims = claims;
     }
 
+    @Override
     public Long getUserId() {
 		return Long.parseLong(this.claims.getSubject());
     }

@@ -1,5 +1,6 @@
 package br.com.caelum.carangobom.controllers;
 
+import br.com.caelum.carangobom.service.interfaces.token.ITokenService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -8,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import br.com.caelum.carangobom.controllers.data.AuthenticationForm;
 import br.com.caelum.carangobom.controllers.data.TokenDTO;
-import br.com.caelum.carangobom.service.TokenService;
+import br.com.caelum.carangobom.service.impl.token.TokenService;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
@@ -19,10 +20,10 @@ public class AuthenticationController {
 
     private AuthenticationManager authManager;
 
-    private TokenService tokenService;
+    private ITokenService tokenService;
 
     @Autowired
-    public AuthenticationController(AuthenticationManager authManager, TokenService tokenService) {
+    public AuthenticationController(AuthenticationManager authManager, ITokenService tokenService) {
         this.authManager = authManager;
         this.tokenService = tokenService;
     }

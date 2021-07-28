@@ -1,24 +1,22 @@
 package br.com.caelum.carangobom.filters;
 
-import java.io.IOException;
-import java.util.Enumeration;
-import java.util.Optional;
-
-import javax.servlet.FilterChain;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
+import br.com.caelum.carangobom.models.User;
+import br.com.caelum.carangobom.repository.interfaces.UserRepository;
+import br.com.caelum.carangobom.service.interfaces.token.ITokenClaims;
+import br.com.caelum.carangobom.service.interfaces.token.ITokenService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import br.com.caelum.carangobom.models.User;
-import br.com.caelum.carangobom.repository.UserRepository;
-import br.com.caelum.carangobom.service.TokenService;
-import br.com.caelum.carangobom.service.token.TokenClaims;
+import javax.servlet.FilterChain;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.util.Enumeration;
+import java.util.Optional;
 
 @Component
 public class TokenAuthenticationFilter extends OncePerRequestFilter {
@@ -26,7 +24,7 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
     private static final String BEARER_PREFIX = "Bearer ";
 
     @Autowired
-    private TokenService tokenService;
+    private ITokenService tokenService;
 
     @Autowired
     private UserRepository userRepository;
@@ -37,7 +35,7 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
             throws ServletException, IOException {
 
         Optional<String> token = this.parseToken(request);
-        Optional<TokenClaims> claims = token.flatMap(tokenService::parseClaims);
+        Optional<ITokenClaims> claims = token.flatMap(tokenService::parseClaims);
         if (claims.isPresent()) {
             this.authenticate(claims.get());
         }
@@ -45,7 +43,7 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
         filterChain.doFilter(request, response);
     }
 
-    private void authenticate(TokenClaims claims) throws ServletException {
+    private void authenticate(ITokenClaims claims) throws ServletException {
         Long userId = claims.getUserId();
         Optional<User> userResult = userRepository.findById(userId);
 

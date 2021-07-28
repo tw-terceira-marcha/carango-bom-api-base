@@ -1,5 +1,6 @@
 package br.com.caelum.carangobom.controllers;
 
+import br.com.caelum.carangobom.service.interfaces.token.ITokenService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -12,7 +13,7 @@ import org.springframework.security.core.Authentication;
 
 import br.com.caelum.carangobom.controllers.data.AuthenticationForm;
 import br.com.caelum.carangobom.controllers.data.TokenDTO;
-import br.com.caelum.carangobom.service.TokenService;
+import br.com.caelum.carangobom.service.impl.token.TokenService;
 
 import org.springframework.security.authentication.TestingAuthenticationToken;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -27,7 +28,7 @@ class AuthenticationControllerTest {
     private AuthenticationManager authManager;
 
     @Mock
-    private TokenService tokenService;
+    private ITokenService tokenService;
 
     @BeforeEach
     public void setupMocks() {

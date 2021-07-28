@@ -8,7 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import br.com.caelum.carangobom.models.Brand;
-import br.com.caelum.carangobom.repository.BrandRepository;
+import br.com.caelum.carangobom.repository.interfaces.BrandRepository;
 
 import java.util.List;
 import java.util.Optional;

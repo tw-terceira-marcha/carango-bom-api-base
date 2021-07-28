@@ -1,28 +1,26 @@
 package br.com.caelum.carangobom.service;
 
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.springframework.security.core.Authentication;
-
 import br.com.caelum.carangobom.models.User;
-import br.com.caelum.carangobom.service.token.TokenClaims;
+import br.com.caelum.carangobom.service.impl.token.TokenService;
+import br.com.caelum.carangobom.service.interfaces.token.ITokenClaims;
+import br.com.caelum.carangobom.service.interfaces.token.ITokenService;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
 import io.jsonwebtoken.security.SignatureException;
-
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.springframework.security.authentication.TestingAuthenticationToken;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-
-import java.util.Date;
+import org.springframework.security.core.Authentication;
 
 import javax.crypto.SecretKey;
+import java.util.Date;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 
 class TokenServiceTest {
-    private TokenService tokenService;
+    private ITokenService tokenService;
 
     private SecretKey key;
 
@@ -74,7 +72,7 @@ class TokenServiceTest {
             .signWith(key, SignatureAlgorithm.HS256)
             .compact();
 
-        TokenClaims claims = tokenService.parseClaims(token).get();
+        ITokenClaims claims = tokenService.parseClaims(token).get();
 
         assertEquals(userId, claims.getUserId());
     }
@@ -124,6 +122,6 @@ class TokenServiceTest {
             .signWith(key, SignatureAlgorithm.HS256)
             .compact();
 
-        assertTrue(!tokenService.parseClaims(token).isPresent());
+        assertFalse(tokenService.parseClaims(token).isPresent());
     }
 }

@@ -11,7 +11,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 import br.com.caelum.carangobom.controllers.data.FieldErrorDTO;
 import br.com.caelum.carangobom.controllers.data.FieldErrorsDTO;
 import br.com.caelum.carangobom.models.Brand;
-import br.com.caelum.carangobom.repository.BrandRepository;
+import br.com.caelum.carangobom.repository.interfaces.BrandRepository;
 
 import javax.validation.Valid;
 import java.net.URI;

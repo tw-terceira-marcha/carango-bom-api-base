@@ -1,27 +1,21 @@
-package br.com.caelum.carangobom.service;
+package br.com.caelum.carangobom.service.impl.token;
 
-import java.util.Date;
-import java.util.Optional;
-
-import javax.crypto.SecretKey;
-
+import br.com.caelum.carangobom.models.User;
+import br.com.caelum.carangobom.service.interfaces.token.ITokenClaims;
+import br.com.caelum.carangobom.service.interfaces.token.ITokenService;
+import io.jsonwebtoken.*;
+import io.jsonwebtoken.security.Keys;
+import io.jsonwebtoken.security.SignatureException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.ExpiredJwtException;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.MalformedJwtException;
-import io.jsonwebtoken.SignatureAlgorithm;
-import io.jsonwebtoken.UnsupportedJwtException;
-import io.jsonwebtoken.security.Keys;
-import io.jsonwebtoken.security.SignatureException;
-import br.com.caelum.carangobom.models.User;
-import br.com.caelum.carangobom.service.token.TokenClaims;
+import javax.crypto.SecretKey;
+import java.util.Date;
+import java.util.Optional;
 
 @Service
-public class TokenService {
+public class TokenService implements ITokenService {
 
     private SecretKey key;
 
@@ -34,6 +28,7 @@ public class TokenService {
         this.expiration = expiration;
     }
 
+    @Override
     public String generateToken(Authentication authentication) {
         User user = (User) authentication.getPrincipal();
         Date today = new Date();
@@ -49,7 +44,8 @@ public class TokenService {
                 .compact();
     }
 
-    public Optional<TokenClaims> parseClaims(String token) {
+    @Override
+    public Optional<ITokenClaims> parseClaims(String token) {
         try {
             Claims claims = Jwts
                     .parserBuilder()

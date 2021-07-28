@@ -1,8 +1,7 @@
-package br.com.caelum.carangobom.repository;
-
-import org.springframework.data.jpa.repository.JpaRepository;
+package br.com.caelum.carangobom.repository.interfaces;
 
 import br.com.caelum.carangobom.models.User;
+import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
 
