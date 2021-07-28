@@ -1,5 +1,9 @@
 package br.com.caelum.carangobom.controllers;
 
+import br.com.caelum.carangobom.data.DTO.BrandDTO;
+import br.com.caelum.carangobom.data.DTO.FieldErrorDTO;
+import br.com.caelum.carangobom.data.form.BrandForm;
+import br.com.caelum.carangobom.service.interfaces.IBrandService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -8,73 +12,59 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import br.com.caelum.carangobom.controllers.data.FieldErrorDTO;
-import br.com.caelum.carangobom.controllers.data.FieldErrorsDTO;
-import br.com.caelum.carangobom.models.Brand;
-import br.com.caelum.carangobom.repository.interfaces.BrandRepository;
-
 import javax.validation.Valid;
 import java.net.URI;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RestController
 public class BrandController {
 
-    private BrandRepository mr;
+    public IBrandService brandService;
 
     @Autowired
-    public BrandController(BrandRepository mr) {
-        this.mr = mr;
+    public BrandController(IBrandService brandService) {
+        this.brandService = brandService;
     }
 
     @GetMapping("/brands")
-    @Transactional
-    public List<Brand> list() {
-        return mr.findAllByOrderByName();
+    public List<BrandDTO> list() {
+        return this.brandService.getList();
     }
 
     @GetMapping("/brands/{id}")
-    @Transactional
-    public ResponseEntity<Brand> id(@PathVariable Long id) {
-        Optional<Brand> m1 = mr.findById(id);
-        if (m1.isPresent()) {
-            return ResponseEntity.ok(m1.get());
+    public ResponseEntity<BrandDTO> id(@PathVariable Long id) {
+        Optional<BrandDTO> brand = this.brandService.getById(id);
+        if (brand.isPresent()) {
+            return ResponseEntity.ok(brand.get());
         } else {
             return ResponseEntity.notFound().build();
         }
     }
 
     @PostMapping("/brands")
-    @Transactional
-    public ResponseEntity<Brand> create(@Valid @RequestBody Brand m1, UriComponentsBuilder uriBuilder) {
-        Brand m2 = mr.save(m1);
-        URI h = uriBuilder.path("/brands/{id}").buildAndExpand(m1.getId()).toUri();
-        return ResponseEntity.created(h).body(m2);
+    public ResponseEntity<BrandDTO> create(@Valid @RequestBody BrandForm brandForm, UriComponentsBuilder uriBuilder) {
+        BrandDTO brand = this.brandService.create(brandForm);
+        URI uri = uriBuilder.path("/brands/{id}").buildAndExpand(brand.getId()).toUri();
+        return ResponseEntity.created(uri).body(brand);
     }
 
     @PutMapping("/brands/{id}")
-    @Transactional
-    public ResponseEntity<Brand> update(@PathVariable Long id, @Valid @RequestBody Brand m1) {
-        Optional<Brand> m2 = mr.findById(id);
-        if (m2.isPresent()) {
-            Brand m3 = m2.get();
-            m3.setName(m1.getName());
-            return ResponseEntity.ok(m3);
+    public ResponseEntity<BrandDTO> update(@PathVariable Long id, @Valid @RequestBody BrandForm brandForm) {
+        Optional<BrandDTO> brandOptional = this.brandService.update(id, brandForm);
+        if (brandOptional.isPresent()) {
+            return ResponseEntity.ok(brandOptional.get());
         } else {
             return ResponseEntity.notFound().build();
         }
     }
 
     @DeleteMapping("/brands/{id}")
-    @Transactional
-    public ResponseEntity<Brand> delete(@PathVariable Long id) {
-        Optional<Brand> m1 = mr.findById(id);
-        if (m1.isPresent()) {
-            Brand m2 = m1.get();
-            mr.delete(m2);
-            return ResponseEntity.ok(m2);
+    public ResponseEntity<BrandDTO> delete(@PathVariable Long id) {
+        Optional<BrandDTO> brandOptional = this.brandService.delete(id);
+        if (brandOptional.isPresent()) {
+            return ResponseEntity.ok(brandOptional.get());
         } else {
             return ResponseEntity.notFound().build();
         }
@@ -82,16 +72,17 @@ public class BrandController {
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public FieldErrorsDTO validate(MethodArgumentNotValidException exception) {
-        List<FieldErrorDTO> l = new ArrayList<>();
-        exception.getBindingResult().getFieldErrors().forEach(e -> {
-            FieldErrorDTO d = new FieldErrorDTO();
-            d.setField(e.getField());
-            d.setMessage(e.getDefaultMessage());
-            l.add(d);
-        });
-        FieldErrorsDTO l2 = new FieldErrorsDTO();
-        l2.setErrors(l);
-        return l2;
+    public List<FieldErrorDTO> validate(MethodArgumentNotValidException exception) {
+        return exception
+                .getBindingResult()
+                .getFieldErrors()
+                .stream()
+                .map(ex -> {
+                    FieldErrorDTO error = new FieldErrorDTO();
+                    error.setField(ex.getField());
+                    error.setMessage(ex.getDefaultMessage());
+                    return error;
+                })
+                .collect(Collectors.toList());
     }
 }

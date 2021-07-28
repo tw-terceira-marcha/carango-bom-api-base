@@ -1,4 +1,4 @@
-package br.com.caelum.carangobom.controllers.data;
+package br.com.caelum.carangobom.data.DTO;
 
 public class TokenDTO {
 

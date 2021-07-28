@@ -21,7 +21,8 @@
 		<sonar.organization>tw-terceira-marcha</sonar.organization>
 		<sonar.host.url>https://sonarcloud.io</sonar.host.url>
 		<sonar.exclusions>
-			**/br/com/caelum/carangobom/controllers/data/*,
+			**/br/com/caelum/carangobom/controllers/*,
+			**/br/com/caelum/carangobom/data/**,
 			**/br/com/caelum/carangobom/models/*,
 			**/br/com/caelum/carangobom/filters/*,
 			**/br/com/caelum/carangobom/repository/*,
@@ -119,7 +120,8 @@
 				<version>0.8.5</version>
 				<configuration>
 					<excludes>
-						<exclude>br/com/caelum/carangobom/controllers/data/*</exclude>
+						<exclude>br/com/caelum/carangobom/controllers/*</exclude>
+						<exclude>br/com/caelum/carangobom/data/**</exclude>
 						<exclude>br/com/caelum/carangobom/models/*</exclude>
 						<exclude>br/com/caelum/carangobom/filters/*</exclude>
 						<exclude>br/com/caelum/carangobom/repository/*</exclude>

@@ -1,4 +1,4 @@
-package br.com.caelum.carangobom.service;
+package br.com.caelum.carangobom.service.token;
 
 import br.com.caelum.carangobom.models.User;
 import br.com.caelum.carangobom.service.impl.token.TokenService;
