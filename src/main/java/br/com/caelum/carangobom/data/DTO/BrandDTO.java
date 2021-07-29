@@ -14,8 +14,10 @@ public class BrandDTO {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
         BrandDTO brandDTO = (BrandDTO) o;
         return id.equals(brandDTO.id) && name.equals(brandDTO.name);
     }

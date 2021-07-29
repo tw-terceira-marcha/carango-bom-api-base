@@ -1,16 +1,18 @@
 package br.com.caelum.carangobom.models;
 
+import static javax.persistence.GenerationType.IDENTITY;
+
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Objects;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.validation.constraints.NotBlank;
-import java.util.Collection;
-import java.util.Arrays;
 import javax.persistence.ManyToOne;
 
-import static javax.persistence.GenerationType.IDENTITY;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 @Entity
 public class User implements UserDetails {
@@ -19,9 +21,10 @@ public class User implements UserDetails {
     @GeneratedValue(strategy = IDENTITY)
     private Long id;
 
-    @NotBlank
     private String name;
+
     private String email;
+
     private String password;
 
     @ManyToOne
@@ -31,10 +34,15 @@ public class User implements UserDetails {
         // Required by @Entity.
     }
 
-    public User(String name, String email, String password) {
+    public User(Long id, String name, String email, String password) {
+        this.id = id;
         this.name = name;
         this.email = email;
         this.password = password;
+    }
+
+    public User(String name, String email, String password) {
+        this(null, name, email, password);
     }
 
     public Long getId() {
@@ -95,4 +103,23 @@ public class User implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
+
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(email);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        User other = (User) obj;
+        return Objects.equals(email, other.email);
+    }
+
 }

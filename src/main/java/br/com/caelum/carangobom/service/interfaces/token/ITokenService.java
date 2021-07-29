@@ -1,8 +1,8 @@
 package br.com.caelum.carangobom.service.interfaces.token;
 
-import org.springframework.security.core.Authentication;
-
 import java.util.Optional;
+
+import org.springframework.security.core.Authentication;
 
 public interface ITokenService {
 

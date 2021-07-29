@@ -6,14 +6,20 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-public class BrandForm {
+public class UpdateUserForm {
     @NotBlank
     @NotNull
     @Size(min = 2, message = "Must have {min} or more characters.")
     private String name;
 
-    public BrandForm(String name) {
+    @NotBlank
+    @NotNull
+    @Size(min = 6, message = "Must have {min} or more characters.")
+    private String email;
+
+    public UpdateUserForm(String name, String email) {
         this.name = name;
+        this.email = email;
     }
 
     public String getName() {
@@ -24,9 +30,17 @@ public class BrandForm {
         this.name = name;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
     @Override
     public int hashCode() {
-        return Objects.hash(name);
+        return Objects.hash(email, name);
     }
 
     @Override
@@ -37,7 +51,8 @@ public class BrandForm {
             return false;
         if (getClass() != obj.getClass())
             return false;
-        BrandForm other = (BrandForm) obj;
-        return Objects.equals(name, other.name);
+        UpdateUserForm other = (UpdateUserForm) obj;
+        return Objects.equals(email, other.email)
+                && Objects.equals(name, other.name);
     }
 }

@@ -21,52 +21,53 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import br.com.caelum.carangobom.data.DTO.BrandDTO;
+import br.com.caelum.carangobom.data.DTO.UserDTO;
+import br.com.caelum.carangobom.data.form.CreateUserForm;
+import br.com.caelum.carangobom.data.form.UpdateUserForm;
 import br.com.caelum.carangobom.data.DTO.FieldErrorDTO;
-import br.com.caelum.carangobom.data.form.BrandForm;
-import br.com.caelum.carangobom.service.interfaces.IBrandService;
+import br.com.caelum.carangobom.service.interfaces.IUserService;
 
 @RestController
-public class BrandController {
+public class UserController {
 
     @Autowired
-    public IBrandService brandService;
+    public IUserService userService;
 
-    @GetMapping("/brands")
-    public List<BrandDTO> list() {
-        return this.brandService.getList();
+    @GetMapping("/users")
+    public List<UserDTO> list() {
+        return this.userService.getList();
     }
 
-    @GetMapping("/brands/{id}")
-    public ResponseEntity<BrandDTO> id(@PathVariable Long id) {
-        return this.brandService
+    @GetMapping("/users/{id}")
+    public ResponseEntity<UserDTO> id(@PathVariable Long id) {
+        return this.userService
                 .getById(id)
                 .map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-    @PostMapping("/brands")
-    public ResponseEntity<BrandDTO> create(
-            @Valid @RequestBody BrandForm brandForm,
+    @PostMapping("/users")
+    public ResponseEntity<UserDTO> create(
+            @Valid @RequestBody CreateUserForm form,
             UriComponentsBuilder uriBuilder) {
-        BrandDTO brand = this.brandService.create(brandForm);
-        URI uri = uriBuilder.path("/brands/{id}").buildAndExpand(brand.getId()).toUri();
-        return ResponseEntity.created(uri).body(brand);
+        UserDTO user = this.userService.create(form);
+        URI uri = uriBuilder.path("/users/{id}").buildAndExpand(user.getId()).toUri();
+        return ResponseEntity.created(uri).body(user);
     }
 
-    @PutMapping("/brands/{id}")
-    public ResponseEntity<BrandDTO> update(
+    @PutMapping("/users/{id}")
+    public ResponseEntity<UserDTO> update(
             @PathVariable Long id,
-            @Valid @RequestBody BrandForm brandForm) {
-        return this.brandService
-                .update(id, brandForm)
+            @Valid @RequestBody UpdateUserForm form) {
+        return this.userService
+                .update(id, form)
                 .map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-    @DeleteMapping("/brands/{id}")
-    public ResponseEntity<BrandDTO> delete(@PathVariable Long id) {
-        return this.brandService
+    @DeleteMapping("/users/{id}")
+    public ResponseEntity<UserDTO> delete(@PathVariable Long id) {
+        return this.userService
                 .delete(id)
                 .map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.notFound().build());

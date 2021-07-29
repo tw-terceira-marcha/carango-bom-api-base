@@ -1,16 +1,18 @@
 package br.com.caelum.carangobom.models;
 
+import static javax.persistence.GenerationType.IDENTITY;
+
+import java.util.Objects;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import java.util.Objects;
-
-import static javax.persistence.GenerationType.IDENTITY;
 
 @Entity
 public class Brand {
 
-    @Id @GeneratedValue(strategy = IDENTITY)
+    @Id
+    @GeneratedValue(strategy = IDENTITY)
     private Long id;
 
     private String name;
@@ -21,19 +23,6 @@ public class Brand {
 
     public Brand(String name) {
         this(null, name);
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Brand brand = (Brand) o;
-        return Objects.equals(id, brand.id) && name.equals(brand.name);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id);
     }
 
     public Brand(Long id, String name) {
@@ -55,5 +44,22 @@ public class Brand {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        Brand other = (Brand) obj;
+        return Objects.equals(name, other.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name);
     }
 }

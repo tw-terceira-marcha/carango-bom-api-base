@@ -1,11 +1,14 @@
 package br.com.caelum.carangobom.models;
 
+import static javax.persistence.GenerationType.IDENTITY;
+
+import java.util.Objects;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.validation.constraints.NotBlank;
 
-import static javax.persistence.GenerationType.IDENTITY;
 import org.springframework.security.core.GrantedAuthority;
 
 @Entity
@@ -41,5 +44,22 @@ public class Role implements GrantedAuthority {
     @Override
     public String getAuthority() {
         return this.name;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        Role other = (Role) obj;
+        return Objects.equals(name, other.name);
     }
 }

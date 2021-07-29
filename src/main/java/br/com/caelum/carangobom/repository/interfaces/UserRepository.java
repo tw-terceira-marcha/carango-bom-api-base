@@ -1,11 +1,16 @@
 package br.com.caelum.carangobom.repository.interfaces;
 
-import br.com.caelum.carangobom.models.User;
+import java.util.List;
+import java.util.Optional;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import java.util.Optional;
+import br.com.caelum.carangobom.models.User;
 
 public interface UserRepository extends JpaRepository<User, Long> {
 
     public Optional<User> findByEmail(String email);
+
+    public List<User> findAllByOrderByEmail();
+
 }

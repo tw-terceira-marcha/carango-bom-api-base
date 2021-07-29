@@ -2,34 +2,22 @@ package br.com.caelum.carangobom.data.form;
 
 import java.util.Objects;
 
-import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
-public class AuthenticationForm {
+public class CreateUserForm extends UpdateUserForm {
 
+    @NotBlank
     @NotNull
-    @NotEmpty
-    private String email;
-
-    @NotNull
-    @NotEmpty
     private String password;
 
-    public AuthenticationForm(String email, String password) {
-        this.email = email;
+    public CreateUserForm(String name, String email, String password) {
+        super(name, email);
         this.password = password;
     }
 
     public String getPassword() {
         return password;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
     }
 
     public void setPassword(String password) {
@@ -38,19 +26,23 @@ public class AuthenticationForm {
 
     @Override
     public int hashCode() {
-        return Objects.hash(email, password);
+        final int prime = 31;
+        int result = super.hashCode();
+        result = prime * result + Objects.hash(password);
+        return result;
     }
 
     @Override
     public boolean equals(Object obj) {
         if (this == obj)
             return true;
-        if (obj == null)
+        if (!super.equals(obj))
             return false;
         if (getClass() != obj.getClass())
             return false;
-        AuthenticationForm other = (AuthenticationForm) obj;
-        return Objects.equals(email, other.email)
+        CreateUserForm other = (CreateUserForm) obj;
+        return super.equals(other)
                 && Objects.equals(password, other.password);
     }
+
 }

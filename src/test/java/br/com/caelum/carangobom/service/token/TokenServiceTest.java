@@ -1,5 +1,18 @@
 package br.com.caelum.carangobom.service.token;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
+import java.util.Date;
+
+import javax.crypto.SecretKey;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.springframework.security.authentication.TestingAuthenticationToken;
+import org.springframework.security.core.Authentication;
+
 import br.com.caelum.carangobom.models.User;
 import br.com.caelum.carangobom.service.impl.token.TokenService;
 import br.com.caelum.carangobom.service.interfaces.token.ITokenClaims;
@@ -8,15 +21,6 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
 import io.jsonwebtoken.security.SignatureException;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.springframework.security.authentication.TestingAuthenticationToken;
-import org.springframework.security.core.Authentication;
-
-import javax.crypto.SecretKey;
-import java.util.Date;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 
 class TokenServiceTest {
