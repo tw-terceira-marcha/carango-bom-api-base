@@ -38,7 +38,8 @@ public class Config extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests()
+        http.cors().and()
+                .authorizeRequests()
                 .antMatchers(HttpMethod.GET, "/vehicles").permitAll()
                 .antMatchers(HttpMethod.GET, "/vehicles/*").permitAll()
                 .antMatchers(HttpMethod.POST, "/auth").permitAll()
