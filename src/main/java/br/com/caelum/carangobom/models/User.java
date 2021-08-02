@@ -2,14 +2,13 @@ package br.com.caelum.carangobom.models;
 
 import static javax.persistence.GenerationType.IDENTITY;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Objects;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -26,9 +25,6 @@ public class User implements UserDetails {
     private String email;
 
     private String password;
-
-    @ManyToOne
-    private Role role;
 
     public User() {
         // Required by @Entity.
@@ -71,7 +67,7 @@ public class User implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Arrays.asList(this.role);
+        return new ArrayList<GrantedAuthority>();
     }
 
     @Override
