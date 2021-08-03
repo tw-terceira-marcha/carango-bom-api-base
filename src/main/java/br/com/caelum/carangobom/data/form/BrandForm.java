@@ -16,6 +16,8 @@ public class BrandForm {
         this.name = name;
     }
 
+    public BrandForm() {}
+
     public String getName() {
         return name;
     }
