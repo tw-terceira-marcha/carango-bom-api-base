@@ -1,7 +1,9 @@
 package br.com.caelum.carangobom.service.impl;
 
-import java.util.Optional;
-
+import br.com.caelum.carangobom.data.DTO.TokenDTO;
+import br.com.caelum.carangobom.data.form.AuthenticationForm;
+import br.com.caelum.carangobom.service.interfaces.IAuthService;
+import br.com.caelum.carangobom.service.interfaces.token.ITokenService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -9,10 +11,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.stereotype.Service;
 
-import br.com.caelum.carangobom.data.DTO.TokenDTO;
-import br.com.caelum.carangobom.data.form.AuthenticationForm;
-import br.com.caelum.carangobom.service.interfaces.IAuthService;
-import br.com.caelum.carangobom.service.interfaces.token.ITokenService;
+import java.util.Optional;
 
 @Service
 public class AuthService implements IAuthService {
@@ -29,7 +28,8 @@ public class AuthService implements IAuthService {
 
     @Override
     public Optional<TokenDTO> authenticate(AuthenticationForm form) {
-        var credentials = new UsernamePasswordAuthenticationToken(form.getEmail(),
+        UsernamePasswordAuthenticationToken credentials =
+                new UsernamePasswordAuthenticationToken(form.getEmail(),
                 form.getPassword());
 
         try {

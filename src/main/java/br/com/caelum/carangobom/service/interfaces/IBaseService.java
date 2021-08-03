@@ -1,26 +1,26 @@
 package br.com.caelum.carangobom.service.interfaces;
 
-import java.util.Optional;
-
 import org.springframework.data.jpa.repository.JpaRepository;
+
+import java.util.Optional;
 
 public interface IBaseService<Entity, Id, Repository extends JpaRepository<Entity, Id>, DTO, CreateForm, UpdateForm> {
 
-    public Repository getRepository();
+    Repository getRepository();
 
-    public default Optional<DTO> getById(Id id) {
+    default Optional<DTO> getById(Id id) {
         return this.getRepository()
                 .findById(id)
                 .map(this::entityToDTO);
     }
 
-    public default DTO create(CreateForm form) {
+    default DTO create(CreateForm form) {
         // TODO: should this check for duplicates?
         return this.entityToDTO(
                 this.getRepository().save(this.formToEntity(form)));
     }
 
-    public default Optional<DTO> update(Id id, UpdateForm form) {
+    default Optional<DTO> update(Id id, UpdateForm form) {
         return this.getRepository()
                 .findById(id)
                 .map(entity -> {
@@ -29,8 +29,8 @@ public interface IBaseService<Entity, Id, Repository extends JpaRepository<Entit
                 });
     }
 
-    public default Optional<DTO> delete(Id id) {
-        var repository = this.getRepository();
+    default Optional<DTO> delete(Id id) {
+        Repository repository = this.getRepository();
         return repository
                 .findById(id)
                 .map(entity -> {
@@ -39,10 +39,10 @@ public interface IBaseService<Entity, Id, Repository extends JpaRepository<Entit
                 });
     }
 
-    public DTO entityToDTO(Entity entity);
+    DTO entityToDTO(Entity entity);
 
-    public Entity formToEntity(CreateForm form);
+    Entity formToEntity(CreateForm form);
 
-    public void updateEntity(Entity entity, UpdateForm form);
+    void updateEntity(Entity entity, UpdateForm form);
 
 }

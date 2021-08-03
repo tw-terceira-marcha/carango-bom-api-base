@@ -12,10 +12,11 @@ public class VehicleForm {
 
     private Long brandId;
 
-    public VehicleForm(String model, int year, BigDecimal value) {
+    public VehicleForm(String model, int year, BigDecimal value, Long brandId) {
         this.model = model;
         this.year = year;
         this.value = value;
+        this.brandId = brandId;
     }
 
     public String getModel() {

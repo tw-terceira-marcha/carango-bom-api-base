@@ -1,19 +1,19 @@
 package br.com.caelum.carangobom.service.impl;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import br.com.caelum.carangobom.data.DTO.BrandDTO;
 import br.com.caelum.carangobom.data.DTO.VehicleDTO;
 import br.com.caelum.carangobom.data.form.VehicleForm;
 import br.com.caelum.carangobom.models.Brand;
 import br.com.caelum.carangobom.models.Vehicle;
+import br.com.caelum.carangobom.repository.interfaces.BrandRepository;
 import br.com.caelum.carangobom.repository.interfaces.VehicleRepository;
 import br.com.caelum.carangobom.service.interfaces.IBrandService;
 import br.com.caelum.carangobom.service.interfaces.IVehicleService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class VehicleService implements IVehicleService {
@@ -22,10 +22,13 @@ public class VehicleService implements IVehicleService {
 
     private IBrandService brandService;
 
+    private BrandRepository brandRepository;
+
     @Autowired
-    public VehicleService(VehicleRepository repository, IBrandService brandService) {
+    public VehicleService(VehicleRepository repository, IBrandService brandService, BrandRepository brandRepository) {
         this.repository = repository;
         this.brandService = brandService;
+        this.brandRepository = brandRepository;
     }
 
     @Override
@@ -70,18 +73,18 @@ public class VehicleService implements IVehicleService {
 
     @Override
     public List<VehicleDTO> getList() {
-        return this.repository.findAll().stream().map(this::entityToDTO).collect(Collectors.toList());
+        return this.repository
+                .findAll()
+                .stream()
+                .map(this::entityToDTO).collect(Collectors.toList());
     }
 
     private void loadBrandById(VehicleForm form, Vehicle vehicle) {
         if (form.getBrandId() == null) {
             return;
         }
-
-        var optional = this.brandService.getById(form.getBrandId());
-        if (optional.isPresent()) {
-            var brandDTO = optional.get();
-            vehicle.setBrand(new Brand(form.getBrandId(), brandDTO.getName()));
-        }
+        this.brandRepository
+                .findById(form.getBrandId())
+                .ifPresent(vehicle::setBrand);
     }
 }

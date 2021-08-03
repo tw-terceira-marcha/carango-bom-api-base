@@ -1,22 +1,22 @@
 package br.com.caelum.carangobom.service;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.when;
-import static org.mockito.MockitoAnnotations.openMocks;
-
-import java.util.List;
-import java.util.stream.Collectors;
-
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
-
 import br.com.caelum.carangobom.data.DTO.BrandDTO;
 import br.com.caelum.carangobom.data.form.BrandForm;
 import br.com.caelum.carangobom.models.Brand;
 import br.com.caelum.carangobom.repository.interfaces.BrandRepository;
 import br.com.caelum.carangobom.service.impl.BrandService;
 import br.com.caelum.carangobom.service.interfaces.IBrandService;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
+
+import java.util.List;
+import java.util.stream.Collectors;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.mockito.Mockito.when;
+import static org.mockito.MockitoAnnotations.openMocks;
 
 class BrandServiceTest {
 
@@ -53,7 +53,7 @@ class BrandServiceTest {
 
     @Test
     void entityToDTO() {
-        var brand = new Brand("Gurgel");
+        Brand brand = new Brand("Gurgel");
 
         BrandDTO dto = service.entityToDTO(brand);
 
@@ -63,19 +63,19 @@ class BrandServiceTest {
 
     @Test
     void formToEntity() {
-        var form = new BrandForm("Gurgel");
+        BrandForm form = new BrandForm("Gurgel");
 
         Brand brand = service.formToEntity(form);
 
-        assertEquals(brand.getId(), null);
+        assertNull(brand.getId());
         assertEquals(brand.getName(), form.getName());
     }
 
     @Test
     void updateEntity() {
-        Long id = 1l;
-        var brand = new Brand(id, "Fiat");
-        var form = new BrandForm("Gurgel");
+        Long id = 1L;
+        Brand brand = new Brand(id, "Fiat");
+        BrandForm form = new BrandForm("Gurgel");
 
         service.updateEntity(brand, form);
 

@@ -1,16 +1,12 @@
 package br.com.caelum.carangobom.service;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
-import static org.mockito.MockitoAnnotations.openMocks;
-
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
-
+import br.com.caelum.carangobom.data.DTO.UserDTO;
+import br.com.caelum.carangobom.data.form.CreateUserForm;
+import br.com.caelum.carangobom.data.form.UpdateUserForm;
+import br.com.caelum.carangobom.models.User;
+import br.com.caelum.carangobom.repository.interfaces.UserRepository;
+import br.com.caelum.carangobom.service.impl.UserService;
+import br.com.caelum.carangobom.service.interfaces.IUserService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -19,13 +15,14 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import br.com.caelum.carangobom.data.DTO.UserDTO;
-import br.com.caelum.carangobom.data.form.CreateUserForm;
-import br.com.caelum.carangobom.data.form.UpdateUserForm;
-import br.com.caelum.carangobom.models.User;
-import br.com.caelum.carangobom.repository.interfaces.UserRepository;
-import br.com.caelum.carangobom.service.impl.UserService;
-import br.com.caelum.carangobom.service.interfaces.IUserService;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
+import static org.mockito.MockitoAnnotations.openMocks;
 
 class UserServiceTest {
 
@@ -43,14 +40,14 @@ class UserServiceTest {
     public void setupMocks() {
         openMocks(this);
 
-        var userService = new UserService(userRepository, passwordEncoder);
+        UserService userService = new UserService(userRepository, passwordEncoder);
         this.userService = userService;
         this.userDetailsService = userService;
     }
 
     @Test
     void entityToDTO() {
-        var user = new User("Karl", "marx@gnu.org", "msilatipacyortsed");
+        User user = new User("Karl", "marx@gnu.org", "msilatipacyortsed");
 
         UserDTO dto = userService.entityToDTO(user);
 
@@ -59,12 +56,12 @@ class UserServiceTest {
 
     @Test
     void formToEntity() {
-        var password = "msilatipacyortsed";
-        var form = new CreateUserForm("Karl", "marx@gnu.org", "msilatipacyortsed");
+        String password = "msilatipacyortsed";
+        CreateUserForm form = new CreateUserForm("Karl", "marx@gnu.org", "msilatipacyortsed");
 
         User user = userService.formToEntity(form);
 
-        assertEquals(user.getId(), null);
+        assertNull(user.getId());
         assertNotEquals(user.getPassword(), password); // Password must have been encrypted.
         assertEquals(user.getPassword(), form.getPassword());
         assertEquals(user.getEmail(), form.getEmail());
@@ -73,13 +70,13 @@ class UserServiceTest {
 
     @Test
     void updateEntity() {
-        var password = "msilatipacyortsed";
-        var user = new User("Luiz", "luiz@gnu.org", password);
-        var form = new UpdateUserForm("Luiz Inácio", "lula@gnu.org");
+        String password = "msilatipacyortsed";
+        User user = new User("Luiz", "luiz@gnu.org", password);
+        UpdateUserForm form = new UpdateUserForm("Luiz Inácio", "lula@gnu.org");
 
         userService.updateEntity(user, form);
 
-        assertEquals(user.getId(), null);
+        assertNull(user.getId());
         assertEquals(user.getPassword(), password);
         assertEquals(user.getEmail(), form.getEmail());
         assertEquals(user.getName(), form.getName());
@@ -106,13 +103,11 @@ class UserServiceTest {
 
     @Test
     void loadUserByUsernameWithValidUsername() {
-        var name = "Luiz";
-        var email = "luiz@gmail.com";
-        var password = "msilatipacyortsed";
+        String name = "Luiz";
+        String email = "luiz@gmail.com";
+        String password = "msilatipacyortsed";
         when(userRepository.findByEmail(email))
-                .then(args -> {
-                    return Optional.of(new User(name, email, password));
-                });
+                .then(args -> Optional.of(new User(name, email, password)));
         UserDetails user = userDetailsService.loadUserByUsername(email);
         assertEquals(email, user.getUsername());
     }
