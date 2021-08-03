@@ -11,14 +11,12 @@ public class VehicleForm {
     @Size(min = 2, message = "Must have {min} or more characters.")
     private String model;
 
-    @NotBlank
     @NotNull
     private int year;
 
     @NotNull
     private BigDecimal value;
 
-    @NotBlank
     @NotNull
     private Long brandId;
 
