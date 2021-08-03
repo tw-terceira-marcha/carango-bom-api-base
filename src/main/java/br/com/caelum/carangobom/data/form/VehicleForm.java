@@ -6,13 +6,13 @@ public class VehicleForm {
     
     private String model;
 
-    private String year;
+    private int year;
 
     private BigDecimal value;
 
     private Long brandId;
 
-    public VehicleForm(String model, String year, BigDecimal value) {
+    public VehicleForm(String model, int year, BigDecimal value) {
         this.model = model;
         this.year = year;
         this.value = value;
@@ -26,11 +26,11 @@ public class VehicleForm {
         this.model = model;
     }
 
-    public String getYear() {
+    public int getYear() {
         return year;
     }
 
-    public void setYear(String year) {
+    public void setYear(int year) {
         this.year = year;
     }
 

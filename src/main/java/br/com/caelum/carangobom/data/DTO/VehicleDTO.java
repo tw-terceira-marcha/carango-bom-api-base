@@ -8,13 +8,13 @@ public class VehicleDTO {
 
     private String model;
 
-    private String year;
+    private int year;
 
     private BigDecimal value;
 
     private BrandDTO brand;
 
-    public VehicleDTO(Long id, String model, String year, BigDecimal value, BrandDTO brand) {
+    public VehicleDTO(Long id, String model, int year, BigDecimal value, BrandDTO brand) {
         this.id = id;
         this.model = model;
         this.year = year;
@@ -38,11 +38,11 @@ public class VehicleDTO {
         this.model = model;
     }
 
-    public String getYear() {
+    public int getYear() {
         return year;
     }
 
-    public void setYear(String year) {
+    public void setYear(int year) {
         this.year = year;
     }
 
@@ -63,20 +63,15 @@ public class VehicleDTO {
     }
 
     @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null || getClass() != obj.getClass())
-            return false;
-        VehicleDTO vehicleDTO = (VehicleDTO) obj;
-        return Objects.equals(id, vehicleDTO.id)
-                && model.equals(vehicleDTO.model)
-                && year.equals(vehicleDTO.year)
-                && value.equals(vehicleDTO.value);
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        VehicleDTO that = (VehicleDTO) o;
+        return year == that.year && Objects.equals(model, that.model) && Objects.equals(value, that.value);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id);
+        return Objects.hash(model, year, value);
     }
 }

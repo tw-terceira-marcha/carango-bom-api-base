@@ -46,7 +46,7 @@ class VehicleServiceTest {
     @Test
     void entityToDTO() {
         var brand = new Brand("VW");
-        var vehicle = new Vehicle("Polo", "2019", new BigDecimal("50000"), brand);
+        var vehicle = new Vehicle("Polo", 2019, new BigDecimal("50000"), brand);
         
         VehicleDTO dto = this.vehicleService.entityToDTO(vehicle);
 
@@ -57,7 +57,7 @@ class VehicleServiceTest {
 
     @Test
     void formToEntity() {
-        var form = new VehicleForm("Polo", "2019", new BigDecimal("50000"));
+        var form = new VehicleForm("Polo", 2019, new BigDecimal("50000"));
 
         var vehicle = vehicleService.formToEntity(form);
 
@@ -71,8 +71,8 @@ class VehicleServiceTest {
     @Test
     void updateEntity() {
         var brand = new Brand("VW");
-        var vehicle = new Vehicle(1L, "Polo", "2019", new BigDecimal("50000"), brand);
-        var form = new VehicleForm("Gol", "2018", new BigDecimal("40000"));
+        var vehicle = new Vehicle(1L, "Polo", 2019, new BigDecimal("50000"), brand);
+        var form = new VehicleForm("Gol", 2018, new BigDecimal("40000"));
 
         vehicleService.updateEntity(vehicle, form);
 
@@ -85,9 +85,9 @@ class VehicleServiceTest {
     void getVehicles() {
         var brand = new Brand("VW");
         List<Vehicle> vehicles = List.of(
-                new Vehicle(1L, "Polo", "2019", new BigDecimal("50000"), brand),
-                new Vehicle(1L, "Gol", "2018", new BigDecimal("40000"), brand),
-                new Vehicle(1L, "Virtus", "2020", new BigDecimal("70000"), brand));
+                new Vehicle(1L, "Polo", 2019, new BigDecimal("50000"), brand),
+                new Vehicle(1L, "Gol", 2018, new BigDecimal("40000"), brand),
+                new Vehicle(1L, "Virtus", 2020, new BigDecimal("70000"), brand));
 
         when(vehicleRepository.findAll())
             .thenReturn(vehicles);

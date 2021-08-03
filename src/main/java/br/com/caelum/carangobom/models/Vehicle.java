@@ -19,7 +19,7 @@ public class Vehicle {
 
     private String model;
 
-    private String year;
+    private int year;
 
     private BigDecimal value;
 
@@ -30,7 +30,7 @@ public class Vehicle {
 
     }
 
-    public Vehicle(Long id, String model, String year, BigDecimal value, Brand brand) {
+    public Vehicle(Long id, String model, int year, BigDecimal value, Brand brand) {
         this.id = id;
         this.model = model;
         this.year = year;
@@ -38,7 +38,7 @@ public class Vehicle {
         this.brand = brand;
     }
 
-    public Vehicle(String model, String year, BigDecimal value, Brand brand) {
+    public Vehicle(String model, int year, BigDecimal value, Brand brand) {
         this(null, model, year, value, brand);
     }
 
@@ -54,11 +54,11 @@ public class Vehicle {
         this.model = model;
     }
 
-    public String getYear() {
+    public int getYear() {
         return year;
     }
 
-    public void setYear(String year) {
+    public void setYear(int year) {
         this.year = year;
     }
 
