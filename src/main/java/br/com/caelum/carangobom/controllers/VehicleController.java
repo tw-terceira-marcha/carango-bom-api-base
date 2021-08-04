@@ -20,6 +20,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import br.com.caelum.carangobom.data.DTO.VehicleDTO;
 import br.com.caelum.carangobom.data.form.VehicleForm;
+import br.com.caelum.carangobom.models.custom.IVehicleSummary;
 import br.com.caelum.carangobom.service.interfaces.IVehicleService;
 
 @RequestMapping("/vehicles")
@@ -43,9 +44,8 @@ public class VehicleController implements IFormValidation {
     }
 
     @GetMapping("/summary")
-    public List<VehicleDTO> summary() {
-        return this.vehicleService
-                .getList();
+    public List<IVehicleSummary> summary() {
+        return this.vehicleService.getSummaryByBrand();
     }
 
     @PostMapping()

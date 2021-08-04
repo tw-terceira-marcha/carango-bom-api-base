@@ -5,6 +5,7 @@ import br.com.caelum.carangobom.data.DTO.VehicleDTO;
 import br.com.caelum.carangobom.data.form.VehicleForm;
 import br.com.caelum.carangobom.models.Brand;
 import br.com.caelum.carangobom.models.Vehicle;
+import br.com.caelum.carangobom.models.custom.IVehicleSummary;
 import br.com.caelum.carangobom.repository.interfaces.BrandRepository;
 import br.com.caelum.carangobom.repository.interfaces.VehicleRepository;
 import br.com.caelum.carangobom.service.interfaces.IBrandService;
@@ -77,6 +78,10 @@ public class VehicleService implements IVehicleService {
                 .findAll()
                 .stream()
                 .map(this::entityToDTO).collect(Collectors.toList());
+    }
+
+    public List<IVehicleSummary> getSummaryByBrand() {
+        return this.repository.groupByBrand();
     }
 
     private void loadBrandById(VehicleForm form, Vehicle vehicle) {
