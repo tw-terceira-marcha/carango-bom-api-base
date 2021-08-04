@@ -25,7 +25,7 @@ import br.com.caelum.carangobom.service.interfaces.IUserService;
 
 @RequestMapping("/users")
 @RestController
-public class UserController {
+public class UserController implements IFormValidation {
 
     @Autowired
     public IUserService userService;
