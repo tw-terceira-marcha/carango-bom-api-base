@@ -1,3 +1,6 @@
+mysql:
+	cd mysql && docker-compose up -d
+
 test:
 	./mvnw test
 
