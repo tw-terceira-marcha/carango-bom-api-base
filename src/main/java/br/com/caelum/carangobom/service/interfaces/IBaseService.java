@@ -2,11 +2,14 @@ package br.com.caelum.carangobom.service.interfaces;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface IBaseService<Entity, Id, Repository extends JpaRepository<Entity, Id>, DTO, CreateForm, UpdateForm> {
 
     Repository getRepository();
+
+    List<DTO> getList();
 
     default Optional<DTO> getById(Id id) {
         return this.getRepository()

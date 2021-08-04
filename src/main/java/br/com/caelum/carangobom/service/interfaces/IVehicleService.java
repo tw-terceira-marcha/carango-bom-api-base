@@ -8,9 +8,9 @@ import br.com.caelum.carangobom.models.Vehicle;
 import br.com.caelum.carangobom.models.custom.IVehicleSummary;
 import br.com.caelum.carangobom.repository.interfaces.VehicleRepository;
 
-public interface IVehicleService 
+public interface IVehicleService
     extends IBaseService<Vehicle, Long, VehicleRepository, VehicleDTO, VehicleForm, VehicleForm> {
 
-        public List<VehicleDTO> getList();
         List<IVehicleSummary> getSummaryByBrand();
+
 }

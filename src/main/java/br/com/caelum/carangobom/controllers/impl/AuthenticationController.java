@@ -1,4 +1,4 @@
-package br.com.caelum.carangobom.controllers;
+package br.com.caelum.carangobom.controllers.impl;
 
 import javax.validation.Valid;
 
@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.com.caelum.carangobom.controllers.interfaces.IFormValidation;
 import br.com.caelum.carangobom.data.DTO.TokenDTO;
 import br.com.caelum.carangobom.data.form.AuthenticationForm;
 import br.com.caelum.carangobom.service.interfaces.IAuthService;

@@ -1,4 +1,4 @@
-package br.com.caelum.carangobom.controllers;
+package br.com.caelum.carangobom.controllers.interfaces;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import br.com.caelum.carangobom.data.DTO.FieldErrorDTO;
 
 public interface IFormValidation {
-    
+
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public default List<FieldErrorDTO> validate(MethodArgumentNotValidException exception) {

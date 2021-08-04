@@ -11,6 +11,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.openMocks;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -22,16 +23,44 @@ import br.com.caelum.carangobom.service.interfaces.IBaseService;
 
 class BaseServiceTest {
 
-    final class Entity {
-    }
+    static class Entity { }
 
-    interface Repository extends JpaRepository<Entity, Long> {
-    }
+    interface Repository extends JpaRepository<Entity, Long> { }
 
-    final class DTO {
-    }
+    static class DTO { }
 
-    final class Form {
+    static class Form { }
+
+    abstract class BaseService
+        implements IBaseService<Entity, Long, Repository, DTO, Form, Form> {
+
+        @Override
+        public Repository getRepository() {
+            return repository;
+        }
+
+        @Override
+        public List<DTO> getList() {
+            fail("Should not have been called");
+            return null;
+        }
+
+        @Override
+        public DTO entityToDTO(Entity entity) {
+            fail("Should not have been called");
+            return null;
+        }
+
+        @Override
+        public Entity formToEntity(Form form) {
+            fail("Should not have been called");
+            return null;
+        }
+
+        @Override
+        public void updateEntity(Entity entity, Form form) {
+            fail("Should not have been called");
+        }
     }
 
     @Mock
@@ -46,27 +75,11 @@ class BaseServiceTest {
     void getEntity() {
         var entity = new Entity();
         var dto = new DTO();
-        var service = new IBaseService<Entity, Long, Repository, DTO, Form, Form>() {
-            @Override
-            public Entity formToEntity(Form o) {
-                fail("Should not have been called");
-                return null;
-            }
-
-            @Override
-            public void updateEntity(Entity o, Form o2) {
-                fail("Should not have been called");
-            }
-
+        var service = new BaseService() {
             @Override
             public DTO entityToDTO(Entity e) {
                 assertEquals(e, entity);
                 return dto;
-            }
-
-            @Override
-            public Repository getRepository() {
-                return repository;
             }
         };
 
@@ -80,29 +93,7 @@ class BaseServiceTest {
 
     @Test
     void getInexistentEntity() {
-        var service = new IBaseService<Entity, Long, Repository, DTO, Form, Form>() {
-            @Override
-            public Entity formToEntity(Form o) {
-                fail("Should not have been called");
-                return null;
-            }
-
-            @Override
-            public void updateEntity(Entity o, Form o2) {
-                fail("Should not have been called");
-            }
-
-            @Override
-            public DTO entityToDTO(Entity e) {
-                fail("Should not have been called");
-                return null;
-            }
-
-            @Override
-            public Repository getRepository() {
-                return repository;
-            }
-        };
+        var service = new BaseService() { };
 
         when(repository.findById(anyLong()))
                 .thenReturn(Optional.empty());
@@ -116,7 +107,7 @@ class BaseServiceTest {
         var entity = new Entity();
         var dto = new DTO();
         var form = new Form();
-        var service = new IBaseService<Entity, Long, Repository, DTO, Form, Form>() {
+        var service = new BaseService() {
             @Override
             public Entity formToEntity(Form f) {
                 assertEquals(f, form);
@@ -124,19 +115,9 @@ class BaseServiceTest {
             }
 
             @Override
-            public void updateEntity(Entity o, Form o2) {
-                fail("Should not have been called");
-            }
-
-            @Override
             public DTO entityToDTO(Entity e) {
                 assertEquals(e, entity);
                 return dto;
-            }
-
-            @Override
-            public Repository getRepository() {
-                return repository;
             }
         };
 
@@ -156,13 +137,7 @@ class BaseServiceTest {
         var entity = new Entity();
         var dto = new DTO();
         var form = new Form();
-        var service = new IBaseService<Entity, Long, Repository, DTO, Form, Form>() {
-            @Override
-            public Entity formToEntity(Form f) {
-                fail("Should not have been called");
-                return null;
-            }
-
+        var service = new BaseService() {
             @Override
             public void updateEntity(Entity e, Form f) {
                 assertEquals(e, entity);
@@ -173,11 +148,6 @@ class BaseServiceTest {
             public DTO entityToDTO(Entity e) {
                 assertEquals(e, entity);
                 return dto;
-            }
-
-            @Override
-            public Repository getRepository() {
-                return repository;
             }
         };
 
@@ -192,29 +162,7 @@ class BaseServiceTest {
     void updateInexistentEntity() {
         Long id = 1l;
         var form = new Form();
-        var service = new IBaseService<Entity, Long, Repository, DTO, Form, Form>() {
-            @Override
-            public Entity formToEntity(Form f) {
-                fail("Should not have been called");
-                return null;
-            }
-
-            @Override
-            public void updateEntity(Entity e, Form f) {
-                fail("Should not have been called");
-            }
-
-            @Override
-            public DTO entityToDTO(Entity e) {
-                fail("Should not have been called");
-                return null;
-            }
-
-            @Override
-            public Repository getRepository() {
-                return repository;
-            }
-        };
+        var service = new BaseService() { };
 
         when(repository.findById(anyLong()))
                 .thenReturn(Optional.empty());
@@ -228,27 +176,11 @@ class BaseServiceTest {
         Long id = 1l;
         var entity = new Entity();
         var dto = new DTO();
-        var service = new IBaseService<Entity, Long, Repository, DTO, Form, Form>() {
-            @Override
-            public Entity formToEntity(Form f) {
-                fail("Should not have been called");
-                return null;
-            }
-
-            @Override
-            public void updateEntity(Entity e, Form f) {
-                fail("Should not have been called");
-            }
-
+        var service = new BaseService() {
             @Override
             public DTO entityToDTO(Entity e) {
                 assertEquals(e, entity);
                 return dto;
-            }
-
-            @Override
-            public Repository getRepository() {
-                return repository;
             }
         };
 
@@ -263,29 +195,7 @@ class BaseServiceTest {
     @Test
     void deleteInexistentEntity() {
         Long id = 1l;
-        var service = new IBaseService<Entity, Long, Repository, DTO, Form, Form>() {
-            @Override
-            public Entity formToEntity(Form f) {
-                fail("Should not have been called");
-                return null;
-            }
-
-            @Override
-            public void updateEntity(Entity e, Form f) {
-                fail("Should not have been called");
-            }
-
-            @Override
-            public DTO entityToDTO(Entity e) {
-                fail("Should not have been called");
-                return null;
-            }
-
-            @Override
-            public Repository getRepository() {
-                return repository;
-            }
-        };
+        var service = new BaseService() { };
 
         when(repository.findById(anyLong()))
                 .thenReturn(Optional.empty());
