@@ -3,7 +3,6 @@ package br.com.caelum.carangobom.controllers.interfaces;
 import java.net.URI;
 import java.util.List;
 
-import javax.transaction.Transactional;
 import javax.validation.Valid;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -49,7 +48,6 @@ public interface IBaseController<Id, Entity, Repository extends JpaRepository<En
     }
 
     @PutMapping("/{id}")
-    @Transactional
     default ResponseEntity<DTO> update(
             @PathVariable Id id,
             @Valid @RequestBody UpdateForm Form) {

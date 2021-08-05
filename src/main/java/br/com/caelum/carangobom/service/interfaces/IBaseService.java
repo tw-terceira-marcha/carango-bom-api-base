@@ -1,9 +1,11 @@
 package br.com.caelum.carangobom.service.interfaces;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
+
 
 public interface IBaseService<Entity, Id, Repository extends JpaRepository<Entity, Id>, DTO, CreateForm, UpdateForm> {
 
@@ -23,6 +25,7 @@ public interface IBaseService<Entity, Id, Repository extends JpaRepository<Entit
                 this.getRepository().save(this.formToEntity(form)));
     }
 
+    @Transactional
     default Optional<DTO> update(Id id, UpdateForm form) {
         return this.getRepository()
                 .findById(id)
