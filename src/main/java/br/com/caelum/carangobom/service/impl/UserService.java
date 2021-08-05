@@ -66,4 +66,10 @@ public class UserService implements UserDetailsService, IUserService {
     public UserRepository getRepository() {
         return this.repository;
     }
+
+    @Override
+    public boolean entityExists(CreateUserForm form) {
+        return this.repository.existsByEmail(form.getEmail());
+    }
+
 }

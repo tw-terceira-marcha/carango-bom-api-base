@@ -47,7 +47,7 @@ class VehicleServiceTest {
     void entityToDTO() {
         Brand brand = new Brand("VW");
         Vehicle vehicle = new Vehicle("Polo", 2019, new BigDecimal("50000"), brand);
-        
+
         VehicleDTO dto = this.vehicleService.entityToDTO(vehicle);
 
         assertEquals(dto.getModel(), vehicle.getModel());
@@ -114,12 +114,11 @@ class VehicleServiceTest {
         when(vehicleRepository.save(vehicle))
                 .then(invocation -> invocation.getArgument(0, Vehicle.class));
 
-        VehicleDTO vehicleDTO = vehicleService.create(form);
+        VehicleDTO vehicleDTO = vehicleService.create(form).get();
 
         assertEquals(vehicleDTO.getModel(), form.getModel());
         assertEquals(vehicleDTO.getYear(), form.getYear());
         assertEquals(vehicleDTO.getValue(), form.getValue());
         assertEquals(vehicleDTO.getBrand().getId(), form.getBrandId());
     }
-
 }

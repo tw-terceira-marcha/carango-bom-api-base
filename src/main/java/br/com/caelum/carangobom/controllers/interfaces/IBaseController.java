@@ -6,6 +6,7 @@ import java.util.List;
 import javax.validation.Valid;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -42,9 +43,13 @@ public interface IBaseController<Id, Entity, Repository extends JpaRepository<En
     default ResponseEntity<DTO> create(
             @Valid @RequestBody CreateForm Form,
             UriComponentsBuilder uriBuilder) {
-        var dto = this.getService().create(Form);
-        var uri = this.getCreatedURI(dto);
-        return ResponseEntity.created(uri).body(dto);
+        return this.getService()
+            .create(Form)
+            .map(dto -> ResponseEntity
+                 .created(this.getCreatedURI(dto))
+                 .body(dto)
+            )
+            .orElseGet(() -> ResponseEntity.status(HttpStatus.CONFLICT).build());
     }
 
     @PutMapping("/{id}")

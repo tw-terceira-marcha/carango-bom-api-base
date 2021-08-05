@@ -12,8 +12,10 @@ import br.com.caelum.carangobom.service.interfaces.IBrandService;
 import br.com.caelum.carangobom.service.interfaces.IVehicleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -57,14 +59,19 @@ public class VehicleService implements IVehicleService {
     }
 
     @Override
-    public VehicleDTO create(VehicleForm form) {
+    @Transactional
+    public Optional<VehicleDTO> create(VehicleForm form) {
+        if (this.entityExists(form)) {
+            return Optional.empty();
+        }
+
         Vehicle vehicle = this.formToEntity(form);
 
         loadBrandById(form, vehicle);
 
         vehicle = this.getRepository().save(vehicle);
 
-        return this.entityToDTO(vehicle);
+        return Optional.of(this.entityToDTO(vehicle));
     }
 
     @Override
@@ -92,4 +99,11 @@ public class VehicleService implements IVehicleService {
                 .findById(form.getBrandId())
                 .ifPresent(vehicle::setBrand);
     }
+
+    @Override
+    public boolean entityExists(VehicleForm form) {
+        // There is no such thing as duplicate vehicles.
+        return false;
+    }
+
 }

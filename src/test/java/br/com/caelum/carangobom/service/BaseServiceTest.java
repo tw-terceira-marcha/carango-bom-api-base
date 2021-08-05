@@ -61,6 +61,12 @@ class BaseServiceTest {
         public void updateEntity(Entity entity, Form form) {
             fail("Should not have been called");
         }
+
+        @Override
+        public boolean entityExists(Form form) {
+            fail("Should not have been called");
+            return false;
+        }
     }
 
     @Mock
@@ -119,6 +125,12 @@ class BaseServiceTest {
                 assertEquals(e, entity);
                 return dto;
             }
+
+            @Override
+            public boolean entityExists(Form f) {
+                assertEquals(f, form);
+                return false;
+            }
         };
 
         when(repository.save(entity))
@@ -127,8 +139,23 @@ class BaseServiceTest {
                     return savedEntity;
                 });
 
-        DTO returnedDTO = service.create(form);
-        assertEquals(returnedDTO, dto);
+        Optional<DTO> result = service.create(form);
+        assertEquals(result, Optional.of(dto));
+    }
+
+    @Test
+    void existingEntity() {
+        var form = new Form();
+        var service = new BaseService() {
+            @Override
+            public boolean entityExists(Form f) {
+                assertEquals(f, form);
+                return true;
+            }
+        };
+
+        Optional<DTO> result = service.create(form);
+        assertFalse(result.isPresent());
     }
 
     @Test

@@ -9,6 +9,8 @@ import br.com.caelum.carangobom.models.User;
 
 public interface UserRepository extends JpaRepository<User, Long> {
 
+    public boolean existsByEmail(String email);
+
     public Optional<User> findByEmail(String email);
 
     public List<User> findAllByOrderByEmail();

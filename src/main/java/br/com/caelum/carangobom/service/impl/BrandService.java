@@ -50,4 +50,9 @@ public class BrandService implements IBrandService {
     public BrandRepository getRepository() {
         return this.repository;
     }
+
+    @Override
+    public boolean entityExists(BrandForm form) {
+        return this.repository.existsByName(form.getName());
+    }
 }

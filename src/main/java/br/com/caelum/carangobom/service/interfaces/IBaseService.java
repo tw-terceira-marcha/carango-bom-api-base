@@ -19,10 +19,15 @@ public interface IBaseService<Entity, Id, Repository extends JpaRepository<Entit
                 .map(this::entityToDTO);
     }
 
-    default DTO create(CreateForm form) {
-        // TODO: should this check for duplicates?
-        return this.entityToDTO(
-                this.getRepository().save(this.formToEntity(form)));
+    @Transactional
+    default Optional<DTO> create(CreateForm form) {
+        if (this.entityExists(form)) {
+            return Optional.empty();
+        }
+
+        var entity = this.getRepository().save(this.formToEntity(form));
+        var dto = this.entityToDTO(entity);
+        return Optional.of(dto);
     }
 
     @Transactional
@@ -51,4 +56,5 @@ public interface IBaseService<Entity, Id, Repository extends JpaRepository<Entit
 
     void updateEntity(Entity entity, UpdateForm form);
 
+    boolean entityExists(CreateForm form);
 }
